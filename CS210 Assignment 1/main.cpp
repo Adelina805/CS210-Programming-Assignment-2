@@ -1,12 +1,14 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+
 class TicTacToe {
 
 public:
-/* Constructor*/
+    /* Constructor*/
     TicTacToe(){
-/* Initialize defaults here */
+    /* Initialize defaults here */
+
     }
 
 /* This is your game board*/
@@ -31,8 +33,8 @@ public:
     }
 
 /* This method modifies the game board*/
-    void modifyGameBoard(char player, int position)
-    {
-        /*write code to modify the game board here*/
+    void modifyGameBoard(char player, int position) {
+    /*write code to modify*/
     }
+
 };
