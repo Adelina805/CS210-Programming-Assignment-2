@@ -3,15 +3,14 @@
 using namespace std;
 
 class TicTacToe {
-
 public:
     /* Constructor*/
     TicTacToe(){
     /* Initialize defaults here */
-
+        printGameBoard();
     }
 
-/* This is your game board*/
+    /* This is your game board*/
     vector<vector<char> > gameBoard
             {
                     {'1', '2', '3'},
@@ -19,7 +18,7 @@ public:
                     {'7', '8', '9'}
             };
 
-/* This prints your game board*/
+    /* This prints your game board*/
     void printGameBoard()
     {
         for (int i = 0; i < gameBoard.size(); i++)
@@ -36,5 +35,4 @@ public:
     void modifyGameBoard(char player, int position) {
     /*write code to modify*/
     }
-
 };
