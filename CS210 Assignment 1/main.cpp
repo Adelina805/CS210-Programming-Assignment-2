@@ -3,25 +3,21 @@
 using namespace std;
 
 class TicTacToe {
+
 public:
-    /* Constructor*/
+    // Constructor
     TicTacToe() {
         /* Initialize defaults here */
-        printGameBoard();
-
-        int position = 0;
     }
 
-    /* This is your game board*/
-    vector<vector<char>> gameBoard = {
+    // game board
+    vector<vector<char> > gameBoard {
             {'1', '2', '3'},
             {'4', '5', '6'},
             {'7', '8', '9'}
     };
 
-    char player = gameBoard[1][2];
-
-    /* This prints your game board*/
+    // print game board
     void printGameBoard()
     {
         for (int i = 0; i < gameBoard.size(); i++)
@@ -34,9 +30,16 @@ public:
         }
     }
 
-    /* This method modifies the game board*/
+    // Modify the game board
     void modifyGameBoard(char player, int position) {
-    /*write code to modify*/
+
     }
 
 };
+
+int main() {
+    TicTacToe game;  // Create a TicTacToe object
+    game.modifyGameBoard('X', 5);  // Example: Player 'X' makes a move at position 5
+    game.printGameBoard();
+    return 0;
+}
