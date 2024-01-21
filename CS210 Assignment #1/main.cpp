@@ -5,7 +5,7 @@ using namespace std;
 class TicTacToe {
 
 public:
-    // Constructor
+    // constructor
     TicTacToe() {
     }
 
@@ -16,7 +16,7 @@ public:
             {'7', '8', '9'}
     };
 
-    // print game board
+    // print the game board
     void printGameBoard()
     {
         for (int i = 0; i < gameBoard.size(); i++)
@@ -29,9 +29,35 @@ public:
         }
     }
 
-    // Modify the game board
+    // modify the game board
     void modifyGameBoard(char player, int position) {
+        gameBoard[(position - 1) / 3][(position - 1) % 3] = player;
+    }
 
+    // check for win by comparing rows, columns, and diagonals
+    bool checkGameWin() {
+        for (int i = 0; i < 3; ++i) {
+            // check rows
+            if (gameBoard[i][0] == gameBoard[i][1] && gameBoard[i][1] == gameBoard[i][2]) {
+                return true;
+            }
+            // check columns
+            if (gameBoard[0][i] == gameBoard[1][i] && gameBoard[1][i] == gameBoard[2][i]) {
+                return true;
+            }
+        }
+
+        // check diagonal; top left to bottom right
+        if (gameBoard[0][0] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][2]) {
+            return true;
+        }
+        // check diagonal; top right to bottom left
+        if (gameBoard[0][2] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][0]) {
+            return true;
+        }
+
+        // no winner
+        return false;
     }
 
 };
@@ -40,27 +66,38 @@ int main() {
     // Create a TicTacToe object
     TicTacToe game;
 
-    // Display initial text and board, and create win and inputvariable
+    // Display initial text and board, create player and input variables
     cout << "TIC TAC TOE" << endl;
-    game.printGameBoard();
-    int win = 0;
-    int userInput;
+    char player = 'X';
+    int position;
 
-    // loop prompting the players and getting input
-    while (win != 1) {
-        // Player X stuff: prompt, modify, print
-        cout << "Player X Enter Position: ";
-        cin >> userInput;
-        game.modifyGameBoard('X', userInput);
+    // loop for 9 turns, switching between players and checking for game win
+    for (int i = 0; i < 9; i++) {
+        // print board
         game.printGameBoard();
 
-        //add if statement for "Player X Wins!!, win = 1;
+        // prompt player and get input
+        cout << "Player " << player << " Enter Position: ";
+        cin >> position;
 
-        // Player O stuff: prompt, modify, print
-        cout << "Player O Enter Position: ";
-        cin >> userInput;
-        game.modifyGameBoard('O', userInput);
-        game.printGameBoard();
-        //add if statement for "Player O Wins!!, win = 0
+        // change board
+        game.modifyGameBoard(player, position);
+
+        // check if game has been won
+        if (game.checkGameWin()) {
+            game.printGameBoard();
+            cout << "Player " << player << " Wins!!!" << endl;
+            cout << "GAME OVER";
+            return 0;
+        }
+
+        // change player, first checks if it's X's turn, if it is, change to O's, if it isn't, change to X
+        player = (player == 'X') ? 'O' : 'X';
     }
+
+    // if all 9 turns complete without a win, end defaults to a tie
+    game.printGameBoard();
+    cout << "Tie!!" << endl;
+    cout << "GAME OVER";
+    return 0;
 }
