@@ -7,7 +7,6 @@ class TicTacToe {
 public:
     // Constructor
     TicTacToe() {
-        /* Initialize defaults here */
     }
 
     // game board
@@ -36,17 +35,32 @@ public:
     }
 
 };
-#include <iostream>
 
 int main() {
-    cout << "Hello, World!" << endl;
-
     // Create a TicTacToe object
     TicTacToe game;
 
-    // Example: Player 'X' makes a move at position 5
-    game.modifyGameBoard('X', 5);
+    // Display initial text and board, and create win and inputvariable
+    cout << "TIC TAC TOE" << endl;
     game.printGameBoard();
+    int win = 0;
+    int userInput;
 
-    return 0;
+    // loop prompting the players and getting input
+    while (win != 1) {
+        // Player X stuff: prompt, modify, print
+        cout << "Player X Enter Position: ";
+        cin >> userInput;
+        game.modifyGameBoard('X', userInput);
+        game.printGameBoard();
+
+        //add if statement for "Player X Wins!!, win = 1;
+
+        // Player O stuff: prompt, modify, print
+        cout << "Player O Enter Position: ";
+        cin >> userInput;
+        game.modifyGameBoard('O', userInput);
+        game.printGameBoard();
+        //add if statement for "Player O Wins!!, win = 0
+    }
 }
