@@ -39,7 +39,7 @@ public:
 #include <iostream>
 
 int main() {
-    cout << "HELLLLPPPP, World!" << endl;
+    cout << "Hello, World!" << endl;
 
     // Create a TicTacToe object
     TicTacToe game;
