@@ -62,10 +62,10 @@ public:
 };
 
 int main() {
-    // Create a TicTacToe object
+    // create a TicTacToe object
     TicTacToe game;
 
-    // Display initial text and board, create player and input variables
+    // display initial text and board, create player and input variables
     cout << "TIC TAC TOE" << endl;
     char player = 'X';
     int position;
@@ -90,7 +90,7 @@ int main() {
             return 0;
         }
 
-        // change player, first checks if it's X's turn, if it is, change to O's, if it isn't, change to X
+        // change player, first checks if it's X's turn, if it is: change to O's, if it isn't: change to X
         player = (player == 'X') ? 'O' : 'X';
     }
 
