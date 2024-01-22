@@ -47,11 +47,11 @@ public:
             }
         }
 
-        // check diagonal; top left to bottom right
+        // check diagonal: "\"
         if (gameBoard[0][0] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][2]) {
             return true;
         }
-        // check diagonal; top right to bottom left
+        // check diagonal: "/"
         if (gameBoard[0][2] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][0]) {
             return true;
         }
@@ -59,7 +59,6 @@ public:
         // no winner
         return false;
     }
-
 };
 
 int main() {
