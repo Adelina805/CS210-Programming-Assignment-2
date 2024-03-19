@@ -1,0 +1,3 @@
+/Users/adelinamartinez/CLionProjects/CircularDLL/cmake-build-debug/CMakeFiles/CircularDLL.dir
+/Users/adelinamartinez/CLionProjects/CircularDLL/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/adelinamartinez/CLionProjects/CircularDLL/cmake-build-debug/CMakeFiles/rebuild_cache.dir
