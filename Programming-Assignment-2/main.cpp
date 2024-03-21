@@ -20,7 +20,7 @@ int main() {
     newBST->deleteElement(newData); //delete with one child
     newBST->print();
     NewData = new Data(10);
-    newBST->deleteElement(newData); // delete a number that doesnt exist. What will you print?
+    newBST->deleteElement(newData); // delete a number that doesn't exist. What will you print?
     newBST->print();
     newBST->findKthElement(1); //first element
     newBST->findKthElement(newBST->getnumberOfElements()); //last element
@@ -32,22 +32,3 @@ int main() {
     newBST->sortDescending();
     return 0;
 }
-Expected Output :
-10, 45, 23, 12, 34, 67, 89, 99
-CS210 Manju Muralidharan
-4
-10
-99
-45, 23, 12, 34, 67, 89, 99
-34, 23, 12, 67, 89, 99
-34, 23, 67, 89, 99
-Number does not exist
-34, 23, 67, 89, 99
-23
-99
-67
-Number does not exist
-23
-99
-23, 34, 67, 89, 99
-99, 89, 67, 34, 23
