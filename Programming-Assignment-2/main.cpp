@@ -1,7 +1,7 @@
 int main() {
     int a[] = {10,45,23,67,89,34,12,99};
     Data* newData = new Data(a[0]);
-    BinarySearchTree<Data>* newBST = new BinarySearchTree<Data>(a[0]);
+    BinarySearchTree<Data>* newBST = new BinarySearchTree<Data>(newData);
     for(int i=1;i< (sizeof(a)/sizeof(int));i++)
     {
         newData = new Data(a[i]);
