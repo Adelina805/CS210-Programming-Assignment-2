@@ -1,5 +1,4 @@
 #include <iostream>
-#include <sstream>
 using namespace std;
 
 // Node Class: Node for the BST
@@ -20,6 +19,11 @@ public:
         parent = nullptr;
     }
 
+    // Destructor
+    ~Node() {
+        delete data;
+    }
+
     // Getters
     T* getData() const {
         return data;
@@ -38,25 +42,27 @@ public:
     }
 
     // Setters
-    void setData(T *data) {
-        this->data = data;
+    void setData(T *newData) {
+        this->data = newData;
     }
 
-    void setLeftChild(Node<T> *leftChild) {
-        this->leftChild = leftChild;
+    void setLeftChild(Node<T> *newLeftChild) {
+        this->leftChild = newLeftChild;
     }
 
-    void setRightChild(Node<T> *rightChild) {
-        this->rightChild = rightChild;
+    void setRightChild(Node<T> *newRightChild) {
+        this->rightChild = newRightChild;
     }
 
-    void setParent(Node<T> *parent) {
-        this->parent = parent;
+    void setParent(Node<T> *newParent) {
+        this->parent = newParent;
     }
 
     // Print
     void print() {
-        data->print();
+        if (data != nullptr) {
+            data->print();
+        }
     }
 };
 
@@ -105,16 +111,16 @@ public:
     }
 
     // Setters
-    void setRoot(Node<T> *root) {
-        this->root = root;
+    void setRoot(Node<T> *newRoot) {
+        this->root = newRoot;
     }
 
-    void setNumberOfElements(int numberOfElements) {
-        this->numberOfElements = numberOfElements;
+    void setNumberOfElements(int newNumberOfElements) {
+        this->numberOfElements = newNumberOfElements;
     }
 
-    void setHeight(int height) {
-        this->height = height;
+    void setHeight(int newHeight) {
+        this->height = newHeight;
     }
 
     // Print the BST (pre-order)
@@ -144,33 +150,27 @@ public:
 
     }
 
-    // this method finds the element in the kth in
-    // ascending order of elements in the tree and prints it. It returns nothing.
-    // Consider edge cases and account for them.
+    // this method finds the element in the kth in ascending order of elements in the tree and prints it
     void findKthElement(int k) {
 
     }
 
-    // this method finds the smallest element in the tree and prints it. It returns nothing.
+    // this method finds the smallest element in the tree and prints it
     void findSmallest() {
 
     }
 
-    // this method finds the biggest element in the tree and prints it. It returns nothing.
+    // this method finds the biggest element in the tree and prints it
     void findBiggest() {
 
     }
 
-    // this method prints all the elements stored in the BST in ascending order.
-    // This method must be written recursively, not iteratively.
-    // It returns nothing.
+    // this method prints all the elements stored in the BST in ascending order
     void sortAscending() {
 
     }
 
-    // this method prints all the elements stored in the BST in descending order.
-    // This method must be written recursively, not iteratively.
-    // This method returns nothing.
+    // this method prints all the elements stored in the BST in descending order
     void sortDescending() {
 
     }
