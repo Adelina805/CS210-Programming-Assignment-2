@@ -11,17 +11,13 @@ private:
     Node<T> *rightChild;
     Node<T> *parent;
 
+public:
     // Constructor
     Node(T *data) {
         this->data = data;
         leftChild = nullptr;
         rightChild = nullptr;
         parent = nullptr;
-    }
-
-    // Print
-    void print() {
-        data->print();
     }
 
     // Getters
@@ -57,146 +53,159 @@ private:
     void setParent(Node<T> *parent) {
         this->parent = parent;
     }
+
+    // Print
+    void print() {
+        data->print();
+    }
 };
 
 // Binary Search Tree Class: Container for Nodes
 template<typename T>
 class BinarySearchTree {
-public:
-    Node<T> *head;
-    Node<T> *tail;
-    int length;
+private:
+    Node<T> *root;
+    int numberOfElements;
+    int height;
 
+public:
     // Constructor
-    BST(T *data) {
+    BinarySearchTree(T *data) {
         Node<T> *newNode = new Node<T>(data);
-        head = newNode;
-        tail = newNode;
-        tail->next = head;
-        head->prev = tail;
-        length = 1;
+        root = newNode;
+        numberOfElements = 1;
+        height = 0;
     }
 
     // Destructor
-    ~BST() {
-        Node<T> *temp = head;
+    ~BinarySearchTree() {
+        Node<T> *temp = root;
         Node<T> *nextNode;
-        while (head) {
-            nextNode = head->next;
+        while (root) {
+            nextNode = root->next;
             delete temp;
             temp = nextNode;
-            if (temp == head) {
+            if (temp == root) {
                 break;
             }
         }
     }
 
-    // Print the list
-    void printList() {
-        int number = 1; // number
-        if (!head) { // if empty do nothing
+    // Getters
+    Node<T>* getRoot() const {
+        return root;
+    }
+
+    int getnumberOfElements() const {
+        return numberOfElements;
+    }
+
+    int getHeight() const {
+        return height;
+    }
+
+    // Setters
+    void setRoot(Node<T> *root) {
+        this->root = root;
+    }
+
+    void setNumberOfElements(int numberOfElements) {
+        this->numberOfElements = numberOfElements;
+    }
+
+    void setHeight(int height) {
+        this->height = height;
+    }
+
+    // Print the BST (pre-order)
+    void print() {
+        if (!root) { // if empty do nothing
             return;
         }
-        Node<T> *temp = head; // start temp at head
+        Node<T> *temp = root; // start temp at root
         do {
-            cout << number << ". "; // print number.
-            temp->print(); // call node's print
-            temp = temp->next; // go to next node
-            number++; // increment number
-        } while (temp != head); // stop if back to head
+        } while (temp != root); // stop if back to head
     }
 
-    // Insert new process node at the end of list
-    void insertProcess(T *data) {
-        Node<T> *newNode = new Node<T>(data); // create new node
-        newNode->prev = tail; // set newNodes prev to tail
-        newNode->next = head; // set newNodes next to head
-        tail->next = newNode; // set the tails next to newNode
-        head->prev = newNode; // set the heads prev to newNode
-        tail = newNode; // make tail equal newNode
-        length++; // increment length
+    // insert new element
+    void insertElement(T *data) {
+
+        balanceBST(); // balance
     }
 
-    // Delete the process node at the given index
-    void deleteProcess(Node<T> *node) {
-        // if processNode is nullptr or not in the list, return
-        if (!node || node->next == nullptr || node->prev == nullptr) {
-            return;
-        }
-        // if deleting the head
-        if (node == head) {
-            head = head->next;
-        }
-        // update the next and prev pointers
-        node->prev->next = node->next;
-        node->next->prev = node->prev;
+    // delete new element
+    void deleteElement(T *data) {
 
-        // if deleting the tail, update tail
-        if (node == tail) {
-            tail = node->prev;
-        }
-        delete node; // delete the node
-        length--; // decrement length
+        balanceBST(); // balance
     }
 
-    // Check if the list is empty
+    // Adelina's O(n) BST balance
+    void balanceBST() {
+
+    }
+
+    // this method finds the element in the kth in
+    // ascending order of elements in the tree and prints it. It returns nothing.
+    // Consider edge cases and account for them.
+    void findKthElement(int k) {
+
+    }
+
+    // this method finds the smallest element in the tree and prints it. It returns nothing.
+    void findSmallest() {
+
+    }
+
+    // this method finds the biggest element in the tree and prints it. It returns nothing.
+    void findBiggest() {
+
+    }
+
+    // this method prints all the elements stored in the BST in ascending order.
+    // This method must be written recursively, not iteratively.
+    // It returns nothing.
+    void sortAscending() {
+
+    }
+
+    // this method prints all the elements stored in the BST in descending order.
+    // This method must be written recursively, not iteratively.
+    // This method returns nothing.
+    void sortDescending() {
+
+    }
+
+    // Check if the BST is empty
     bool isEmpty() {
-        return length == 0;
+        return numberOfElements == 0;
     }
 };
 
 
-// Process Class: the data that goes inside the node
-class Process {
+// Data Class: the data that goes inside the node
+class Data {
+private:
+    int value;
+
 public:
-    string processName;
-    int totalTime;
-
     // Constructor
-    Process(const string &processName, int totalTime) {
-        this->processName = processName;
-        this->totalTime = totalTime;
+    Data(int value) {
+        this->value = value;
     }
 
-    // Traverse and update the totalTime of each process node in the list
-    void updateRunTime(CircularDLL<Process> &list, int quan) {
-        Node<Process> *temp = list.head; // temporary node starting at head
-
-        while (temp != nullptr) {
-            temp->data->totalTime -= quan; // subtract quan from totalTime
-            temp = temp->next; // go to the next node
-
-            if (temp == list.head) { // if back to head, break the loop
-                break;
-            }
-        }
+    // Getter
+    int getValue() const {
+        return value;
     }
 
-    // Traverse and delete any processes with totalTime less than or equal to zero
-    void traverseAndDelete(CircularDLL<Process> &list) {
-        Node<Process> *current = list.head; // start at the head of the list
-        vector<Node<Process> *> nodesToDelete; // temporary list that stores nodes to be deleted
-
-        while (current != nullptr) {
-            Node<Process> *temp = current; // save the current node
-            current = current->next; // go to the next node before potentially deleting
-
-            if (temp->data->totalTime <= 0) {
-                nodesToDelete.push_back(temp); // store node to be deleted in the temporary list
-            }
-            if (current == list.head) { // if back to the head, break the loop
-                break;
-            }
-        }
-        // delete the nodes stored after traversal is complete
-        for (Node<Process> *node: nodesToDelete) {
-            list.deleteProcess(node);
-        }
+    // Setter
+    void setValue(int newValue) {
+        value = newValue;
     }
 
-    // print name of process and the time left
+    // print the value
     void print() {
-        cout << "Process " << processName << " " << totalTime << "seconds" << endl;
+        cout << value << ", ";
     }
 };
 
@@ -213,16 +222,16 @@ int main() {
     newBST->print();
     newBST->findSmallest();
     newBST->findBiggest();
-    NewData = new Data(10);
+    newData = new Data(10);
     newBST->deleteElement(newData); // delete root
     newBST->print();
-    NewData = new Data(45);
+    newData = new Data(45);
     newBST->deleteElement(newData); //delete with two children
     newBST->print();
-    NewData = new Data(12);
+    newData = new Data(12);
     newBST->deleteElement(newData); //delete with one child
     newBST->print();
-    NewData = new Data(10);
+    newData = new Data(10);
     newBST->deleteElement(newData); // delete a number that doesn't exist. What will you print?
     newBST->print();
     newBST->findKthElement(1); //first element
@@ -234,4 +243,4 @@ int main() {
     newBST->sortAscending();
     newBST->sortDescending();
     return 0;
-}
+};
