@@ -66,6 +66,7 @@ public:
     }
 };
 
+
 // Binary Search Tree Class: Container for Nodes
 template<typename T>
 class BinarySearchTree {
@@ -85,16 +86,7 @@ public:
 
     // Destructor
     ~BinarySearchTree() {
-        Node<T> *temp = root;
-        Node<T> *nextNode;
-        while (root) {
-            nextNode = root->next;
-            delete temp;
-            temp = nextNode;
-            if (temp == root) {
-                break;
-            }
-        }
+        deleteBST(root);
     }
 
     // Getters
@@ -112,37 +104,56 @@ public:
 
     // Setters
     void setRoot(Node<T> *newRoot) {
-        this->root = newRoot;
+        root = newRoot;
     }
 
-    void setNumberOfElements(int newNumberOfElements) {
-        this->numberOfElements = newNumberOfElements;
+    void setNumberOfElements(int num) {
+        numberOfElements = num;
     }
 
     void setHeight(int newHeight) {
-        this->height = newHeight;
+        height = newHeight;
     }
 
-    // Print the BST (pre-order)
-    void print() {
-        if (!root) { // if empty do nothing
-            return;
-        }
-        Node<T> *temp = root; // start temp at root
-        do {
-        } while (temp != root); // stop if back to head
-    }
-
-    // insert new element
+    // insert element recursively
     void insertElement(T *data) {
-
-        balanceBST(); // balance
+        root = insertElementBST(root, data);
+        numberOfElements++;
     }
 
-    // delete new element
+    Node<T> *insertElementBST(Node<T> *root, T *data) {
+        if (root == nullptr) { // if empty, return node
+            return new Node<T>(data);
+        }
+        if (data->getValue() < root->getData()->getValue()) {
+            root->setLeftChild(insertElementBST(root->getLeftChild(), data));
+        }
+        else if (data->getValue() > root->getData()->getValue()) {
+            root->setRightChild(insertElementBST(root->getRightChild(), data));
+        }
+        balanceBST(); // balance
+        return root;
+    }
+
+    // delete element
     void deleteElement(T *data) {
 
         balanceBST(); // balance
+    }
+
+    // print entire BST recursively
+    void print() const {
+        printBST(root);
+        cout << endl;
+    }
+
+    void printBST(Node<T>* root) const {
+        if (root == nullptr) {
+            return;
+        }
+        root->getData()->print();
+        printBST(root->getLeftChild());
+        printBST(root->getRightChild());
     }
 
     // Adelina's O(n) BST balance
@@ -150,27 +161,27 @@ public:
 
     }
 
-    // this method finds the element in the kth in ascending order of elements in the tree and prints it
+    // find the element in the kth in ascending order of elements in the tree and print it
     void findKthElement(int k) {
 
     }
 
-    // this method finds the smallest element in the tree and prints it
+    // find the smallest element in the tree and print it
     void findSmallest() {
 
     }
 
-    // this method finds the biggest element in the tree and prints it
+    // find the biggest element in the tree and print it
     void findBiggest() {
 
     }
 
-    // this method prints all the elements stored in the BST in ascending order
+    // print all the elements stored in the BST in ascending order
     void sortAscending() {
 
     }
 
-    // this method prints all the elements stored in the BST in descending order
+    // print all the elements stored in the BST in descending order
     void sortDescending() {
 
     }
