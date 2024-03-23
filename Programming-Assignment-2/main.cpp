@@ -131,14 +131,14 @@ public:
         else if (data->getValue() > root->getData()->getValue()) {
             root->setRightChild(insertElementBST(root->getRightChild(), data));
         }
-        balanceBST(); // balance
+        balanceBST(); // balance tree
         return root;
     }
 
     // delete element
     void deleteElement(T *data) {
 
-        balanceBST(); // balance
+        balanceBST(); // balance tree
     }
 
     // print entire BST recursively
