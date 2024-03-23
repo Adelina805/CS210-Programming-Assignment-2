@@ -166,12 +166,40 @@ public:
 
     // find the smallest element in the tree and print it
     void findSmallest() {
-
+        Node<T>* smallest = findSmallestHelper(root);
+        if (smallest != nullptr) {
+            smallest->getData()->print();
+            cout << endl;
+        } else {
+            cout << "empty" << endl;
+        }
     }
 
     // find the biggest element in the tree and print it
     void findBiggest() {
+        Node<T>* biggest = findBiggestHelper(root);
+        if (biggest != nullptr) {
+            biggest->getData()->print();
+            cout << endl;
+        } else {
+            cout << "empty" << endl;
+        }
+    }
 
+    // recursive function to find the smallest element
+    Node<T>* findSmallestHelper(Node<T>* node) const {
+        if (node == nullptr || node->getLeftChild() == nullptr) {
+            return node;
+        }
+        return findSmallestHelper(node->getLeftChild());
+    }
+
+    // recursive function to find the biggest element
+    Node<T>* findBiggestHelper(Node<T>* node) const {
+        if (node == nullptr || node->getRightChild() == nullptr) {
+            return node;
+        }
+        return findBiggestHelper(node->getRightChild());
     }
 
     // print all the elements stored in the BST in ascending order
