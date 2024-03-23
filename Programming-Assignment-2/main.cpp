@@ -121,44 +121,42 @@ public:
         numberOfElements++;
     }
 
-    Node<T> *insertElementBST(Node<T> *root, T *data) {
-        if (root == nullptr) { // if empty, return node
+    Node<T> *insertElementBST(Node<T> *node, T *data) {
+        if (node == nullptr) { // if empty, return node
             return new Node<T>(data);
         }
-        if (data->getValue() < root->getData()->getValue()) {
-            root->setLeftChild(insertElementBST(root->getLeftChild(), data));
+        if (data->getValue() < node->getData()->getValue()) { // if smaller than parent, left child
+            node->setLeftChild(insertElementBST(node->getLeftChild(), data));
         }
-        else if (data->getValue() > root->getData()->getValue()) {
-            root->setRightChild(insertElementBST(root->getRightChild(), data));
+        else if (data->getValue() > node->getData()->getValue()) { // if larger than parent, right child
+            node->setRightChild(insertElementBST(node->getRightChild(), data));
         }
-        balanceBST(); // balance tree
-        return root;
+        return node;
     }
 
     // delete element
     void deleteElement(T *data) {
 
-        balanceBST(); // balance tree
     }
 
     // print entire BST recursively
     void print() const {
-        printBST(root);
+        bool notLast = true;
+        printBST(root, notLast);
         cout << endl;
     }
-
-    void printBST(Node<T>* root) const {
-        if (root == nullptr) {
+    // pre-order print
+    void printBST(Node<T>* node, bool& notLast) const {
+        if (node == nullptr) {
             return;
         }
-        root->getData()->print();
-        printBST(root->getLeftChild());
-        printBST(root->getRightChild());
-    }
-
-    // Adelina's O(n) BST balance
-    void balanceBST() {
-
+        if (!notLast) {
+            cout << ", "; // add comma
+        }
+        node->getData()->print(); // print node
+        notLast = false;
+        printBST(node->getLeftChild(), notLast); // print left
+        printBST(node->getRightChild(), notLast); // print right
     }
 
     // find the element in the kth in ascending order of elements in the tree and print it
@@ -215,8 +213,8 @@ public:
     }
 
     // print the value
-    void print() {
-        cout << value << ", ";
+    void print() const {
+        cout << value;
     }
 };
 
@@ -254,4 +252,4 @@ int main() {
     newBST->sortAscending();
     newBST->sortDescending();
     return 0;
-};
+}

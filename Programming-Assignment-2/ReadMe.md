@@ -70,7 +70,6 @@ methods, your algorithm must run to an O(n) time.
 
 Expected Output :
 10, 45, 23, 12, 34, 67, 89, 99
-4
 10
 99
 45, 23, 12, 34, 67, 89, 99
