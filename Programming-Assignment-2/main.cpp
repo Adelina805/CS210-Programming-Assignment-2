@@ -90,7 +90,7 @@ public:
     }
 
     // Getters
-    Node<T>* getRoot() const {
+    Node<T> *getRoot() const {
         return root;
     }
 
@@ -141,22 +141,22 @@ public:
 
     // print entire BST recursively
     void print() const {
-        bool notLast = true;
-        printBST(root, notLast);
+        bool first = true;
+        printBST(root, first);
         cout << endl;
     }
     // pre-order print
-    void printBST(Node<T>* node, bool& notLast) const {
+    void printBST(Node<T> *node, bool& first) const {
         if (node == nullptr) {
-            return;
+            return; // if null node
         }
-        if (!notLast) {
-            cout << ", "; // add comma
+        if (!first) {
+            cout << ", "; // print comma if not the last element
         }
-        node->getData()->print(); // print node
-        notLast = false;
-        printBST(node->getLeftChild(), notLast); // print left
-        printBST(node->getRightChild(), notLast); // print right
+        node->getData()->print(); // print node value
+        first = false;
+        printBST(node->getLeftChild(), first); // print left
+        printBST(node->getRightChild(), first); // print right
     }
 
     // find the element in the kth in ascending order of elements in the tree and print it
@@ -176,12 +176,44 @@ public:
 
     // print all the elements stored in the BST in ascending order
     void sortAscending() {
-
+        bool first = true;
+        sortAHelper(root, first);
+        cout << endl;
     }
 
     // print all the elements stored in the BST in descending order
     void sortDescending() {
+        bool first = true;
+        sortDHelper(root, first);
+        cout << endl;
+    }
 
+    // recursive function for ascending sort
+    void sortAHelper(Node<T>* node, bool& first) const {
+        if (node == nullptr) {
+            return;
+        }
+        sortAHelper(node->getLeftChild(), first); // print left
+        if (!first) {
+            cout << ", "; // print comma if not the last element
+        }
+        node->getData()->print(); // print node value
+        first = false;
+        sortAHelper(node->getRightChild(), first); // print right
+    }
+
+    // recursive function for descending sort
+    void sortDHelper(Node<T>* node, bool& first) const {
+        if (node == nullptr) {
+            return;
+        }
+        sortDHelper(node->getRightChild(), first); // print right
+        if (!first) {
+            cout << ", "; // print comma if not the last element
+        }
+        node->getData()->print(); // print node value
+        first = false;
+        sortDHelper(node->getLeftChild(), first); // print left
     }
 
     // Check if the BST is empty
