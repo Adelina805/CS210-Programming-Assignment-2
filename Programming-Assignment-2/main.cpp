@@ -160,8 +160,36 @@ public:
     }
 
     // find the element in the kth in ascending order of elements in the tree and print it
-    void findKthElement(int k) {
+    void findKthElement(int k) const {
+        if (k <= 0 || k > numberOfElements) {
+            cout << "Number does not exist" << endl;
+            return;
+        }
+        int count = 0;
+        findKthHelper(root, count, k);
+    }
 
+    // recursive function for in-order traversal to find kth element
+    void findKthHelper(Node<T>* node, int& count, int k) const {
+        if (node == nullptr || count >= k) {
+            return;
+        }
+
+        // Traverse left subtree
+        findKthHelper(node->getLeftChild(), count, k);
+
+        // Increment count as current node is visited
+        count++;
+
+        // If kth element is reached, print it
+        if (count == k) {
+            node->getData()->print();
+            cout << endl;
+            return;
+        }
+
+        // Traverse right subtree
+        findKthHelper(node->getRightChild(), count, k);
     }
 
     // find the smallest element in the tree and print it
@@ -243,11 +271,6 @@ public:
         first = false;
         sortDHelper(node->getLeftChild(), first); // print left
     }
-
-    // Check if the BST is empty
-    bool isEmpty() {
-        return numberOfElements == 0;
-    }
 };
 
 
@@ -288,28 +311,43 @@ int main() {
         newData = new Data(a[i]);
         newBST->insertElement(newData);
     }
+    cout << "List: "; // DELETE
     newBST->print();
+    cout << "Smallest: "; // DELETE
     newBST->findSmallest();
+    cout << "Biggest: "; // DELETE
     newBST->findBiggest();
+    cout << "Delete root: "; // DELETE
     newData = new Data(10);
     newBST->deleteElement(newData); // delete root
     newBST->print();
+    cout << "Delete with 2 children: "; // DELETE
     newData = new Data(45);
     newBST->deleteElement(newData); //delete with two children
     newBST->print();
+    cout << "Delete with one child: "; // DELETE
     newData = new Data(12);
     newBST->deleteElement(newData); //delete with one child
     newBST->print();
+    cout << "Delete non existing num: "; // DELETE
     newData = new Data(10);
     newBST->deleteElement(newData); // delete a number that doesn't exist. What will you print?
     newBST->print();
+    cout << "1st: "; // DELETE
     newBST->findKthElement(1); //first element
+    cout << "Last: "; // DELETE
     newBST->findKthElement(newBST->getnumberOfElements()); //last element
+    cout << "3rd: "; // DELETE
     newBST->findKthElement(3); // some element in between
+    cout << "Edge case: "; // DELETE
     newBST->findKthElement(7); // Edge case where item does not exist. What will you print?
+    cout << "Smallest: "; // DELETE
     newBST->findSmallest();
+    cout << "Biggest: "; // DELETE
     newBST->findBiggest();
+    cout << "Ascend: "; // DELETE
     newBST->sortAscending();
+    cout << "Descend: "; // DELETE
     newBST->sortDescending();
     return 0;
 }
