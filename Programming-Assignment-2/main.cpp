@@ -120,7 +120,6 @@ public:
         root = insertElementBST(root, data);
         numberOfElements++;
     }
-
     Node<T> *insertElementBST(Node<T> *node, T *data) {
         if (node == nullptr) { // if empty, return node
             return new Node<T>(data);
@@ -134,15 +133,6 @@ public:
         return node;
     }
 
-    // recursive function to find the in-order child of a node
-    Node<T> *findChild(Node<T>* node) {
-        Node<T>* curr = node->getRightChild();
-        while (curr != nullptr && curr->getLeftChild() != nullptr) {
-            curr = curr->getLeftChild();
-        }
-        return curr;
-    }
-
     // delete element recursively
     Node<T> *deleteElement(T *data) {
         root = deleteNode(root, data);
@@ -150,32 +140,50 @@ public:
             numberOfElements--;
         }
     }
-
     // recursive function to delete a node
     Node<T> *deleteNode(Node<T> *node, T *data) {
         if (node == nullptr) { // if empty, return null
             return nullptr;
         }
+
         // search for node
         if (data->getValue() < node->getData()->getValue()) { // if less than, go down left branch, recursive
             node->setLeftChild(deleteNode(node->getLeftChild(), data));
         } else if (data->getValue() > node->getData()->getValue()) { // if greater than, go down right branch, recursive
             node->setRightChild(deleteNode(node->getRightChild(), data));
         } else {
-            // Node with only one child or no child
-            if (node->getLeftChild() == nullptr) {
+            // Node with two children
+            if (node->getLeftChild() != nullptr && node->getRightChild() != nullptr){
+            cout << "two child ";
+            Node<T> *replacement = findReplacement(node->getLeftChild());
+            node->setData(replacement->getData());
+            node->setLeftChild(deleteNode(node->getLeftChild(), replacement->getData()));
+            }
+            // Node with one child
+            else if (node->getLeftChild() == nullptr) {
                 Node<T> *temp = node->getRightChild();
                 delete node;
-                return temp;
-            } else if (node->getRightChild() == nullptr) {
-                Node<T> *temp = node->getLeftChild();
-                delete node;
+                cout << "no left child ";
                 return temp;
             }
-            // Node with two children
-            Node<T> *child = findChild(node);
-            node->setData(child->getData());
-            node->setRightChild(deleteNode(node->getRightChild(), child->getData()));
+            // Node with one or no children
+            else if (node->getRightChild() == nullptr) {
+                Node<T> *temp = node->getLeftChild();
+                delete node;
+                cout << "no right child or no child ";
+                return temp;
+            }
+            // wasn't found
+            else {
+                cout << "Number does not exist";
+            }
+        }
+        return node;
+    }
+    // find the maximum value in the given subtree
+    Node<T>* findReplacement(Node<T> *node) const {
+        while (node->getRightChild() != nullptr) {
+            node = node->getRightChild();
         }
         return node;
     }
@@ -209,7 +217,6 @@ public:
         int count = 0;
         findKthHelper(root, count, k);
     }
-
     // recursive function for in-order traversal to find kth element
     void findKthHelper(Node<T>* node, int& count, int k) const {
         if (node == nullptr || count >= k) {
@@ -217,10 +224,9 @@ public:
         }
         // Traverse left subtree
         findKthHelper(node->getLeftChild(), count, k);
-        // Increment count as current node is visited
-        count++;
-        // If kth element is reached, print it
-        if (count == k) {
+        count++; // Increment count as current node is visited
+
+        if (count == k) { // If kth element is reached, print it
             node->getData()->print();
             cout << endl;
             return;
@@ -239,6 +245,13 @@ public:
             cout << "empty" << endl;
         }
     }
+    // recursive function to find the smallest element
+    Node<T>* findSmallestHelper(Node<T>* node) const {
+        if (node == nullptr || node->getLeftChild() == nullptr) {
+            return node;
+        }
+        return findSmallestHelper(node->getLeftChild());
+    }
 
     // find the biggest element in the tree and print it
     void findBiggest() {
@@ -250,15 +263,6 @@ public:
             cout << "empty" << endl;
         }
     }
-
-    // recursive function to find the smallest element
-    Node<T>* findSmallestHelper(Node<T>* node) const {
-        if (node == nullptr || node->getLeftChild() == nullptr) {
-            return node;
-        }
-        return findSmallestHelper(node->getLeftChild());
-    }
-
     // recursive function to find the biggest element
     Node<T>* findBiggestHelper(Node<T>* node) const {
         if (node == nullptr || node->getRightChild() == nullptr) {
@@ -273,14 +277,6 @@ public:
         sortAHelper(root, first);
         cout << endl;
     }
-
-    // print all the elements stored in the BST in descending order
-    void sortDescending() {
-        bool first = true;
-        sortDHelper(root, first);
-        cout << endl;
-    }
-
     // recursive function for ascending sort
     void sortAHelper(Node<T>* node, bool& first) const {
         if (node == nullptr) { // if empty, return
@@ -295,6 +291,12 @@ public:
         sortAHelper(node->getRightChild(), first); // print right
     }
 
+    // print all the elements stored in the BST in descending order
+    void sortDescending() {
+        bool first = true;
+        sortDHelper(root, first);
+        cout << endl;
+    }
     // recursive function for descending sort
     void sortDHelper(Node<T>* node, bool& first) const {
         if (node == nullptr) { // if empty, return
@@ -350,41 +352,61 @@ int main() {
     }
     cout << "List: "; // DELETE
     newBST->print();
+
     cout << "Smallest: "; // DELETE
     newBST->findSmallest();
+
     cout << "Biggest: "; // DELETE
     newBST->findBiggest();
-    cout << "Delete root (10): "; // DELETE
+
+    cout << "Delete (10): "; // DELETE
     newData = new Data(10);
     newBST->deleteElement(newData); // delete root
     newBST->print();
-    cout << "Delete with 2 children (45): "; // DELETE
+
+    cout << "Delete (99): "; // DELETE
+    newData = new Data(99);
+    newBST->deleteElement(newData); //delete with two children
+    newBST->print();
+
+    cout << "Delete (45): "; // DELETE
     newData = new Data(45);
     newBST->deleteElement(newData); //delete with two children
     newBST->print();
-    cout << "Delete with one child (12): "; // DELETE
+
+    cout << "Delete (12): "; // DELETE
     newData = new Data(12);
     newBST->deleteElement(newData); //delete with one child
     newBST->print();
+
     cout << "Delete non existing num: "; // DELETE
     newData = new Data(1000);
     newBST->deleteElement(newData); // delete a number that doesn't exist. What will you print?
     newBST->print();
+
     cout << "1st: "; // DELETE
     newBST->findKthElement(1); //first element
+
     cout << "Last: "; // DELETE
     newBST->findKthElement(newBST->getnumberOfElements()); //last element
+
     cout << "3rd: "; // DELETE
     newBST->findKthElement(3); // some element in between
+
     cout << "Edge case: "; // DELETE
     newBST->findKthElement(7); // Edge case where item does not exist. What will you print?
+
     cout << "Smallest: "; // DELETE
     newBST->findSmallest();
+
     cout << "Biggest: "; // DELETE
     newBST->findBiggest();
+
     cout << "Ascend: "; // DELETE
     newBST->sortAscending();
+
     cout << "Descend: "; // DELETE
     newBST->sortDescending();
+
     return 0;
 }
