@@ -157,24 +157,28 @@ public:
         } else {
             // Node with two children
             if (node->getLeftChild() != nullptr && node->getRightChild() != nullptr) {
-                // cout << "two child ";
+                // Find replacement node in the left subtree
                 Node<T> *replacement = findReplacement(node->getLeftChild());
-                // cout << "replace with " << replacement->getData()->getValue() << " ";
-                node->setData(replacement->getData());
+                Node<T> *temp = replacement;
+
+                // Copy data from replacement node to current node
+                node->setData(temp->getData());
+
+                // Delete the replacement node from its original location
+                node->setLeftChild(deleteNode(node->getLeftChild(), replacement->getData()));
+
                 return node;
             }
             // Node with one child
             else if (node->getLeftChild() == nullptr) {
                 Node<T> *temp = node->getRightChild();
                 delete node;
-                // cout << "no left child ";
                 return temp;
             }
                 // Node with one or no children
             else if (node->getRightChild() == nullptr) {
                 Node<T> *temp = node->getLeftChild();
                 delete node;
-                // cout << "no right child or no child ";
                 return temp;
             }
         }
