@@ -145,7 +145,10 @@ public:
         if (node == nullptr) { // if empty, return null
             return nullptr;
         }
-
+        if (containsValue(node, data) == false) { // if not in tree
+            cout << "Number does not exist " << endl;
+            return node;
+        }
         // search for node
         if (data->getValue() < node->getData()->getValue()) { // if less than, go down left branch, recursive
             node->setLeftChild(deleteNode(node->getLeftChild(), data));
@@ -153,29 +156,26 @@ public:
             node->setRightChild(deleteNode(node->getRightChild(), data));
         } else {
             // Node with two children
-            if (node->getLeftChild() != nullptr && node->getRightChild() != nullptr){
-            cout << "two child ";
-            Node<T> *replacement = findReplacement(node->getLeftChild());
-            node->setData(replacement->getData());
-            node->setLeftChild(deleteNode(node->getLeftChild(), replacement->getData()));
+            if (node->getLeftChild() != nullptr && node->getRightChild() != nullptr) {
+                // cout << "two child ";
+                Node<T> *replacement = findReplacement(node->getLeftChild());
+                // cout << "replace with " << replacement->getData()->getValue() << " ";
+                node->setData(replacement->getData());
+                return node;
             }
             // Node with one child
             else if (node->getLeftChild() == nullptr) {
                 Node<T> *temp = node->getRightChild();
                 delete node;
-                cout << "no left child ";
+                // cout << "no left child ";
                 return temp;
             }
-            // Node with one or no children
+                // Node with one or no children
             else if (node->getRightChild() == nullptr) {
                 Node<T> *temp = node->getLeftChild();
                 delete node;
-                cout << "no right child or no child ";
+                // cout << "no right child or no child ";
                 return temp;
-            }
-            // wasn't found
-            else {
-                cout << "Number does not exist";
             }
         }
         return node;
@@ -186,6 +186,19 @@ public:
             node = node->getRightChild();
         }
         return node;
+    }
+    // check if the value is in the binary search tree
+    bool containsValue(Node<T>* node, T* data) {
+        if (node == nullptr) {
+            return false; // Value not found
+        }
+        if (data->getValue() < node->getData()->getValue()) {
+            return containsValue(node->getLeftChild(), data); // Search left subtree
+        } else if (data->getValue() > node->getData()->getValue()) {
+            return containsValue(node->getRightChild(), data); // Search right subtree
+        } else {
+            return true; // Value found
+        }
     }
 
     // print entire BST recursively
@@ -362,11 +375,6 @@ int main() {
     cout << "Delete (10): "; // DELETE
     newData = new Data(10);
     newBST->deleteElement(newData); // delete root
-    newBST->print();
-
-    cout << "Delete (99): "; // DELETE
-    newData = new Data(99);
-    newBST->deleteElement(newData); //delete with two children
     newBST->print();
 
     cout << "Delete (45): "; // DELETE
