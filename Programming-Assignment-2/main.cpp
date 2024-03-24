@@ -134,9 +134,50 @@ public:
         return node;
     }
 
-    // delete element
-    void deleteElement(T *data) {
+    // recursive function to find the in-order child of a node
+    Node<T> *findChild(Node<T>* node) {
+        Node<T>* curr = node->getRightChild();
+        while (curr != nullptr && curr->getLeftChild() != nullptr) {
+            curr = curr->getLeftChild();
+        }
+        return curr;
+    }
 
+    // delete element recursively
+    Node<T> *deleteElement(T *data) {
+        root = deleteNode(root, data);
+        if (root != nullptr) {
+            numberOfElements--;
+        }
+    }
+
+    // recursive function to delete a node
+    Node<T> *deleteNode(Node<T> *node, T *data) {
+        if (node == nullptr) { // if empty, return null
+            return nullptr;
+        }
+        // search for node
+        if (data->getValue() < node->getData()->getValue()) { // if less than, go down left branch, recursive
+            node->setLeftChild(deleteNode(node->getLeftChild(), data));
+        } else if (data->getValue() > node->getData()->getValue()) { // if greater than, go down right branch, recursive
+            node->setRightChild(deleteNode(node->getRightChild(), data));
+        } else {
+            // Node with only one child or no child
+            if (node->getLeftChild() == nullptr) {
+                Node<T> *temp = node->getRightChild();
+                delete node;
+                return temp;
+            } else if (node->getRightChild() == nullptr) {
+                Node<T> *temp = node->getLeftChild();
+                delete node;
+                return temp;
+            }
+            // Node with two children
+            Node<T> *child = findChild(node);
+            node->setData(child->getData());
+            node->setRightChild(deleteNode(node->getRightChild(), child->getData()));
+        }
+        return node;
     }
 
     // print entire BST recursively
@@ -174,20 +215,16 @@ public:
         if (node == nullptr || count >= k) {
             return;
         }
-
         // Traverse left subtree
         findKthHelper(node->getLeftChild(), count, k);
-
         // Increment count as current node is visited
         count++;
-
         // If kth element is reached, print it
         if (count == k) {
             node->getData()->print();
             cout << endl;
             return;
         }
-
         // Traverse right subtree
         findKthHelper(node->getRightChild(), count, k);
     }
@@ -246,7 +283,7 @@ public:
 
     // recursive function for ascending sort
     void sortAHelper(Node<T>* node, bool& first) const {
-        if (node == nullptr) {
+        if (node == nullptr) { // if empty, return
             return;
         }
         sortAHelper(node->getLeftChild(), first); // print left
@@ -260,7 +297,7 @@ public:
 
     // recursive function for descending sort
     void sortDHelper(Node<T>* node, bool& first) const {
-        if (node == nullptr) {
+        if (node == nullptr) { // if empty, return
             return;
         }
         sortDHelper(node->getRightChild(), first); // print right
@@ -317,20 +354,20 @@ int main() {
     newBST->findSmallest();
     cout << "Biggest: "; // DELETE
     newBST->findBiggest();
-    cout << "Delete root: "; // DELETE
+    cout << "Delete root (10): "; // DELETE
     newData = new Data(10);
     newBST->deleteElement(newData); // delete root
     newBST->print();
-    cout << "Delete with 2 children: "; // DELETE
+    cout << "Delete with 2 children (45): "; // DELETE
     newData = new Data(45);
     newBST->deleteElement(newData); //delete with two children
     newBST->print();
-    cout << "Delete with one child: "; // DELETE
+    cout << "Delete with one child (12): "; // DELETE
     newData = new Data(12);
     newBST->deleteElement(newData); //delete with one child
     newBST->print();
     cout << "Delete non existing num: "; // DELETE
-    newData = new Data(10);
+    newData = new Data(1000);
     newBST->deleteElement(newData); // delete a number that doesn't exist. What will you print?
     newBST->print();
     cout << "1st: "; // DELETE
