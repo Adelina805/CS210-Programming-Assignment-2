@@ -22,6 +22,7 @@ public:
     // Destructor
     ~Node() {
         delete data;
+        data = nullptr;
     }
 
     // Getters
@@ -222,6 +223,19 @@ public:
         } else {
             return true; // Value found
         }
+    }
+
+    // Recursive function to delete the entire BST
+    void deleteBST(Node<T>* node) {
+        if (node == nullptr)
+            return;
+
+        // Recursively delete left and right subtrees
+        deleteBST(node->getLeftChild());
+        deleteBST(node->getRightChild());
+
+        // Delete the current node
+        delete node;
     }
 
     // print entire BST recursively
